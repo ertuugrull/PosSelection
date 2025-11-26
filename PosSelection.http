@@ -1,0 +1,7 @@
+@PosSelection_HostAddress = http://localhost:5004
+
+GET {{PosSelection_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
