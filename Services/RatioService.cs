@@ -12,13 +12,12 @@ public class RatioService(HttpClient httpClient, ILogger<RatioService> logger, I
     private readonly IMemoryCache _memoryCache = memoryCache;
     private readonly SemaphoreSlim _refreshLock = new(1, 1);
     private const string CacheKey = "PayTr_Ratios";
-    private const string ApiEndpoint = "https://6899a45bfed141b96ba02e4f.mockapi.io/paytr/ratios";
 
     public async Task<List<Ratio>> GetAllRatiosAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            var response = await _httpClient.GetAsync(ApiEndpoint, cancellationToken);
+            var response = await _httpClient.GetAsync("paytr/ratios", cancellationToken);
             response.EnsureSuccessStatusCode();
 
             var jsonContent = await response.Content.ReadAsStringAsync(cancellationToken);

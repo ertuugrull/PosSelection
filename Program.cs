@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Options;
+using PosSelection.Models.Ratio;
 using PosSelection.Services;
 using PosSelection.Services.Background;
 using PosSelection.Services.Interfaces;
@@ -13,15 +15,22 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddMemoryCache();
-
-builder.Services.AddHttpClient<IRatioService, RatioService>();
-
 builder.Services.AddScoped<IPosSelectionService, PosSelectionService>();
 builder.Services.AddScoped<IRequestValidationService, RequestValidationService>();
 builder.Services.AddHostedService<RatioRefreshBackgroundService>();
 builder.Services.AddHealthChecks();
+
+builder.Services.Configure<ApiSettings>(
+    builder.Configuration.GetSection("ApiSettings"));
+
+builder.Services.AddHttpClient<IRatioService, RatioService>((sp, client) =>
+{
+    var settings = sp.GetRequiredService<IOptions<ApiSettings>>().Value;
+
+    client.BaseAddress = new Uri(settings.RatioApiBaseUrl);
+    client.Timeout = TimeSpan.FromSeconds(10);
+});
 
 var app = builder.Build();
 
@@ -43,7 +52,7 @@ using (var scope = app.Services.CreateScope())
 {
     var ratioService = scope.ServiceProvider.GetRequiredService<IRatioService>();
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-    
+
     try
     {
         await ratioService.RefreshRatiosAsync();

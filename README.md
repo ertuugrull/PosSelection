@@ -160,6 +160,11 @@ Oranlar her gün **23:59 (Europe/Istanbul)** saatinde otomatik olarak güncellen
 
 Mock API Endpoint: `https://6899a45bfed141b96ba02e4f.mockapi.io/paytr/ratios`
 
+## Health
+
+Apinin sağlı durumu için aşağıdaki endpoint kullanılabilir:
+**GET** `https://localhost:7210/health`
+
 ## Test Senaryoları
 
 Case dokümanında belirtilen test senaryoları:
