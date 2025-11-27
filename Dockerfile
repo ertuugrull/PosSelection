@@ -21,6 +21,10 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD curl --fail http://localhost:8080/health || exit 1
+
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "PosSelection.dll"]
 

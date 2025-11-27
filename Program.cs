@@ -21,6 +21,7 @@ builder.Services.AddHttpClient<IRatioService, RatioService>();
 builder.Services.AddScoped<IPosSelectionService, PosSelectionService>();
 builder.Services.AddScoped<IRequestValidationService, RequestValidationService>();
 builder.Services.AddHostedService<RatioRefreshBackgroundService>();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/health");
 
 app.UseHttpsRedirection();
 
