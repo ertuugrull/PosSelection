@@ -183,5 +183,6 @@ Case dokümanında belirtilen test senaryoları:
 - Logging için built-in ILogger kullanılmaktadır
 - Hata yönetimi ve validasyonlar eklenmiştir
 - Memory cache ile oranlar önbelleğe alınmaktadır
+- Health-check ile projenin sağlık durumu izlenebilir
 
 
