@@ -8,10 +8,14 @@ namespace PosSelection.Helpers
         {
             decimal baseCost = amount * commissionRate;
 
-            if (currency.Equals(nameof(Currency.USD), StringComparison.OrdinalIgnoreCase))
+            decimal currencyMultiplier = currency switch
             {
-                baseCost *= 1.01m;
-            }
+                nameof(Currency.USD) => 1.01m,
+                nameof(Currency.TRY) => 1.00m,
+                _ => 1.00m
+            };
+
+            baseCost *= currencyMultiplier;
 
             return Math.Max(baseCost, minFee);
         }
